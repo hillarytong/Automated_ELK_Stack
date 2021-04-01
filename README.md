@@ -2,11 +2,10 @@
 
 The files in this repository were used to configure the network depicted below.
 
-(Images/Azure_Network_Diagram_Project.png)
+![Azure_Network_Diagram_Project](./Images/Azure_Network_Diagram_Project_1.png)
 
 These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the ansible playbook file may be used to install only certain pieces of it, such as Filebeat.
 
-  - _TODO: Enter the playbook file._
 
 This document contains the following details:
 - Description of the Topology
@@ -41,7 +40,7 @@ The machines on the internal network are not exposed to the public Internet.
 Only the jump box machine can accept connections from the Internet. Access to this machine is only allowed from the following IP addresses:
 - the users home ip address
 Machines within the network can only be accessed by SSH connection via Jumpbox.
-The machine that has access to the Elk VM is the jumpbox, who’s IP is 52.183.67.96.
+The machine that has access to the Elk VM is the jumpbox, whoâ€™s IP is 52.183.67.96.
 
 A summary of the access policies in place can be found in the table below.
 
@@ -57,14 +56,14 @@ A summary of the access policies in place can be found in the table below.
 Ansible was used to automate configuration of the ELK machine. No configuration was performed manually, which is advantageous because it streamlines the configuration of multiple servers in a single deployment which increases the ease of maintenance, reducing the chance of internal errors. Patches can be updated easily in the case of misconfigurations with ansible-playbooks. 
 
 The playbook implements the following tasks:
-- Installs docker.io – it references the IP address listed under elk in ansible’s hosts file to install docker on the target VM
-- Increase virtual memory – a standard container does not have enough virtual memory to run an ELK container 
+- Installs docker.io â€“ it references the IP address listed under elk in ansibleâ€™s hosts file to install docker on the target VM
+- Increase virtual memory â€“ a standard container does not have enough virtual memory to run an ELK container 
 - Install pip3
 - Install Docker python module
-- Launch Docker and enable service Docker on boot – downloads and launches the ELK container, and lists the ports needed to access applications 
+- Launch Docker and enable service Docker on boot â€“ downloads and launches the ELK container, and lists the ports needed to access applications 
 
 The following screenshot displays the result of running `docker ps` after successfully configuring the ELK instance.
-(Images/Docker_PS.png)
+![Docker_Ps](./Images/Docker_Ps.png)
 
 ### Target Machines & Beats
 This ELK server is configured to monitor the following machines:
@@ -85,7 +84,7 @@ In order to use the playbook, you will need to have an Ansible control node alre
 
 SSH into the control node and follow the steps below:
 - Copy the config file to the /etc/filebeat.
-- Update the config file to include port and ip address of the service you’re using it on. For example, Kibana is port 5601.
+- Update the config file to include port and ip address of the service youâ€™re using it on. For example, Kibana is port 5601.
 - Run the playbook, and navigate to module status to check that the installation worked as expected.
 
 The filebeat-playbook.yml is copied over to the /etc/ansible where the hosts file is located. This is prevalent since it is the host file that needs to be updated in order to ensure Ansible to run the playbook on specific machines. In order to specify which machines install Elk versus the ones that install Filebeat, we edit the configuration file for that. In order to check if the ELK server is running properly we navigate to the URL: <elk server IP>:5601/app/kibana. If the page loads then the server is loaded properly. 
