@@ -35,4 +35,19 @@ b) Setting up the VNet
     - Carefully configuring the region of your resources is important for ensuring  low latency and high availability. Resources should be located as close as possible to those who will be consuming them.
 
  ![Create_VN](./Images/Create_VN.png)
+ 
+  - IP Addresses: Azure requires you to define a network and subnet. 
+    - Use the defaults on this tab.
+  - Security: Leave the default settings. 
+    - In order to avoid recurring charges, do NOT enable DDoS Protection Standard. 
+    - Tags: No tags are needed. 
 
+  Click Create
+c) Setting Up Network Security Groups
+
+  Now we need to setup a firewall in front of the VNet to block specific traffic
+
+  To create a network security group:
+
+  - On your Azure portal home screen, search "net" and choose **Network security groups**. 
+  ![NSG](./Images/NSG.png)
