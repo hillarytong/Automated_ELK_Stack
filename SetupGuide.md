@@ -108,9 +108,9 @@ d) Setting up the Jump Box
   - Your output should be similar to:
 
     ```bash
-    cyber@2Us-MacBook-Pro ~ % ssh-keygen
+    user@Desktop ~ % ssh-keygen
     Generating public/private rsa key pair. 
-    Enter file in which to save the key (/Users/cyber/.ssh/id_rsa):
+    Enter file in which to save the key (/Users/user/.ssh/id_rsa):
     Enter passphrase (empty for no passphrase): 
     Enter same passphrase again: 
     Your identification has been saved in id_rsa.
@@ -136,7 +136,7 @@ d) Setting up the Jump Box
   - Your output should be similar to:
 
     ```bash
-    cyber@2Us-MacBook-Pro ~ % cat ~/.ssh/id_rsa.pub 
+    user@Desktop ~ % cat ~/.ssh/id_rsa.pub 
     ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDGG6dBJ6ibhgM09U+kn/5NE7cGc4CNHWXein0f+MciKElDalf76nVgFvJQEIImMhAGrtRRJDAd6itlPyBpurSyNOByU6LX7Gl6DfGQKzQns6+n9BheiVLLY9dtodp8oAXdVEGles5EslflPrTrjijVZa9lxGe34DtrjijExWM6hBb0KvwlkU4worPblINx+ghDv+3pdrkUXMsQAht/fLdtP/EBwgSXKYCu/
     ```
 
@@ -227,4 +227,62 @@ Create 2 more new VMs. Keep the following in mind when configuring these VM's:
 **Note:** These web machines should have _2 GB_ of RAM and the Jump-Box only needs _1 GB_. All 3 machines should only have _1 vCPU_ because the free Azure account only allows _4 vCPU's_ in total per region.
 
 **Important:** Make sure both of these VM's are in the same availability Set. Under Availability Options, select 'Availability Set'. Click on 'Create New' under the Availability set. Give it an appropriate name. After creating it on the first VM, choose it for the second VM.
+
+In the **Networking** tab and set the following settings:
+
+- Virtual network: Choose the VNet you created for the Red Team.
+
+- Subnet: Choose the subnet that you created earlier.
+
+- Public IP: None! Make sure these web VM's do not have a public IP address.
+
+![VM w/ SG](/Images/Create_VM_SG.png)
+
+- NIC network security group: Choose the Advanced option so we can specify our custom security group.
+
+- Configure network security group: Choose your Red Team network security group.
+
+- Accelerated networking: Keep as the default setting (Off).
+
+- In the Networking settings, take note of the VM URL. You may use it later.
+
+- Load balancing: Keep as the default setting (No).
+
+**NOTE:** Notice that these machines will not be accessible at this time because our security group is blocking all traffic. We will configure access to these machines in a later activity.
+
+d) JumpBox Administration
+
+We will need to create a security group rule to allow SSH connections only from your current IP address, and to connect to your new virtual machine for management.
+
+---
+
+1. First, find your IP address by opening the terminal and entering the command `curl icanhazip.com`, or googling "What's my IP address?" 
+
+Next, log into portal.azure.com to create a security group rule to allow SSH connections from your current IP address.
+
+2. Find your security group listed under your resource group.
+
+3. Create a rule allowing SSH connections from your IP address. 
+
+    - Choose **Inbound security rules** on the left.
+
+    - Click **+ Add** to add a rule.
+
+        - Source: Use the **IP Addresses** setting, with your IP address in the field.
+
+        - Source port ranges: Set to **Any** or * here.
+
+		- Destination: This can be set **VirtualNetwork** but a better setting is to specify the internal IP of your jump box to really limit this traffic.
+
+        - Destination port ranges: Since we only want to allow SSH, designate port `22`.
+
+        - Protocol: Set to **Any** or **TCP**.
+
+        - Action: Set to **Allow** traffic.
+
+        - Priority: This must be a lower number than your rule to deny all traffic, i.e., less than 4,096. 
+
+        - Name: Name this rule anything you like, but it should describe the rule. For example: `SSH`.
+
+        - Description: Write a short description similar to: "Allow SSH from my IP." 
 
